@@ -1,0 +1,14 @@
+SELECT  name, content, rn
+FROM    
+        (
+            SELECT  p.name
+                    ,c.content
+                    ,ROW_NUMBER() OVER() (PARTITION BY p.postid 
+                                        ORDER BY createdts DESC) rn
+            FROM    post as p
+			inner join autor a
+			on a.author = 'James Bond'
+                    LEFT JOIN comments as c 
+                        on c.postid = p.id
+        ) s
+WHERE   rn <= 10;
