@@ -1,0 +1,320 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
+
+public class Solution {
+
+	static class Node {
+		int A[][];
+		int x, y;
+
+		public Node(int x, int y) {
+			this.x = x;
+			this.y = y;
+			this.A = new int[x][y];
+		}
+
+		public int getRowCount(int r) {
+			int count = 0;
+			for (int i = 0; i < y; i++) {
+				if (A[r][i] != 0)
+					count++;
+			}
+
+			return count;
+		}
+
+		public int getColCount(int c) {
+			int count = 0;
+			for (int i = 0; i < x; i++) {
+				if (A[i][c] != 0)
+					count++;
+			}
+
+			return count;
+		}
+
+		public int getEmptyCellInCol(int c) {
+			for (int i = 0; i < x; i++) {
+				if (A[i][c] == 0)
+					return i;
+			}
+
+			return -1;
+		}
+
+		private void sortColumnWithThreeNumbers(int c) throws Exception {
+			int emptyCell = this.getEmptyCellInCol(c);
+			if (emptyCell != -1) {
+				throw new Exception("column has <3 cells filled, invalid function");
+			}
+
+			int tempArr[] = new int[] { this.A[0][c], this.A[1][c], this.A[2][c] };
+			Arrays.sort(tempArr);
+
+			for (int r = 0; r < x; r++) {
+				this.A[r][c] = tempArr[r];
+			}
+		}
+
+		private void sortColumnWithTwoNumbers(int c) throws Exception {
+			int emptyCell = this.getEmptyCellInCol(c);
+			if (emptyCell == -1) {
+				throw new Exception("column has 3 cells filled, invalid function");
+			}
+
+			int cell1, cell2;
+			if (emptyCell == 0) {
+				cell1 = 1;
+				cell2 = 2;
+			} else if (emptyCell == 1) {
+				cell1 = 0;
+				cell2 = 2;
+			} else {
+				cell1 = 0;
+				cell2 = 1;
+			}
+
+			if (this.A[cell1][c] < this.A[cell2][c]) {
+				return;
+			} else {
+				int temp = this.A[cell1][c];
+				this.A[cell1][c] = this.A[cell2][c];
+				this.A[cell2][c] = temp;
+			}
+		}
+
+		private void sortColumn(int c) throws Exception {
+			if (this.getColCount(c) == 1) {
+				return;
+			}
+
+			else if (this.getColCount(c) == 2) {
+				this.sortColumnWithTwoNumbers(c);
+			}
+
+			else {
+				this.sortColumnWithThreeNumbers(c);
+			}
+		}
+
+		public void sortColumns() throws Exception {
+			for (int c = 0; c < y; c++) {
+				this.sortColumn(c);
+			}
+		}
+	}
+
+	static int getRand(int min, int max) {
+		Random rand = new Random();
+		return rand.nextInt(max - min + 1) + min;
+	}
+
+	static int getNumberOfElementsInSet(List<List<Integer>> set) {
+		int count = 0;
+		for (List<Integer> li : set)
+			count += li.size();
+		return count;
+	}
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter the number of rows");
+		int x = sc.nextInt();
+		System.out.println("Enter the number of coloumns");
+		int y = sc.nextInt();
+		Node[] nodes = new Node[6];
+		for (int i = 0; i < 6; i++) {
+			nodes[i] = new Node(x, y);
+		}
+		nodes[0] = new Node(x, y);
+		List<Integer> l1 = new ArrayList<Integer>();
+		for (int i = 1; i <= y; i++) {
+			l1.add(i);
+		}
+
+		List<Integer> l2 = new ArrayList<Integer>();
+		for (int i = 10; i <= 19; i++) {
+			l2.add(i);
+		}
+
+		List<Integer> l3 = new ArrayList<Integer>();
+		for (int i = 20; i <= 29; i++) {
+			l3.add(i);
+		}
+
+		List<Integer> l4 = new ArrayList<Integer>();
+		for (int i = 30; i <= 39; i++) {
+			l4.add(i);
+		}
+
+		List<Integer> l5 = new ArrayList<Integer>();
+		for (int i = 40; i <= 49; i++) {
+			l5.add(i);
+		}
+
+		List<Integer> l6 = new ArrayList<Integer>();
+		for (int i = 50; i <= 59; i++) {
+			l6.add(i);
+		}
+
+		List<Integer> l7 = new ArrayList<Integer>();
+		for (int i = 60; i <= 69; i++) {
+			l7.add(i);
+		}
+
+		List<Integer> l8 = new ArrayList<Integer>();
+		for (int i = 70; i <= 79; i++) {
+			l8.add(i);
+		}
+
+		List<Integer> l9 = new ArrayList<Integer>();
+		for (int i = 80; i <= 90; i++) {
+			l9.add(i);
+		}
+
+		List<List<Integer>> columns = new ArrayList<List<Integer>>();
+		columns.add(l1);
+		columns.add(l2);
+		columns.add(l3);
+		columns.add(l4);
+		columns.add(l5);
+		columns.add(l6);
+		columns.add(l7);
+		columns.add(l8);
+		columns.add(l9);
+		List<List<Integer>> set1 = new ArrayList<List<Integer>>();
+		for (int i = 0; i < 9; i++) {
+			set1.add(new ArrayList<Integer>());
+		}
+		for (int i = 0; i < y; i++) {
+			List<Integer> li = columns.get(i);
+			int randNumIndex = getRand(0, li.size() - 1);
+			int randNum = li.get(randNumIndex);
+
+			List<Integer> set = set1.get(i);
+			set.add(randNum);
+
+			li.remove(randNumIndex);
+		}
+
+		List<Integer> lastCol = columns.get(8);
+		int randNumIndex = getRand(0, lastCol.size() - 1);
+		int randNum = lastCol.get(randNumIndex);
+
+		List<Integer> randSet = set1.get(8);
+		randSet.add(randNum);
+
+		lastCol.remove(randNumIndex);
+
+		for (int pass = 0; pass < x; pass++) {
+			for (int i = 0; i < y; i++) {
+				List<Integer> col = columns.get(i);
+				if (col.size() == 0)
+					continue;
+
+				int randNumIndex_p = getRand(0, col.size() - 1);
+				int randNum_p = col.get(randNumIndex_p);
+
+				List<List<Integer>> randSet_p = set1;
+
+				if (getNumberOfElementsInSet(randSet_p) == 15 || randSet_p.get(i).size() == 2)
+					continue;
+
+				randSet_p.get(i).add(randNum_p);
+
+				col.remove(randNumIndex_p);
+			}
+		}
+		for (int i = 0; i < y; i++) {
+			List<Integer> col = columns.get(i);
+			if (col.size() == 0)
+				continue;
+
+			int randNumIndex_p = getRand(0, col.size() - 1);
+			int randNum_p = col.get(randNumIndex_p);
+			List<List<Integer>> randSet_p = set1;
+
+			if (getNumberOfElementsInSet(randSet_p) == 15 || randSet_p.get(i).size() == 3)
+				continue;
+
+			randSet_p.get(i).add(randNum_p);
+
+			col.remove(randNumIndex_p);
+		}
+		List<List<Integer>> currSet = set1;
+		Node currTicket = nodes[0];
+		for (int size = 3; size > 0; size--) {
+			if (currTicket.getRowCount(0) == 5)
+				break;
+			for (int colIndex = 0; colIndex < 9; colIndex++) {
+				if (currTicket.getRowCount(0) == 5)
+					break;
+				if (currTicket.A[0][colIndex] != 0)
+					continue;
+
+				List<Integer> currSetCol = currSet.get(colIndex);
+				if (currSetCol.size() != size)
+					continue;
+
+				currTicket.A[0][colIndex] = currSetCol.remove(0);
+			}
+		}
+
+		for (int size = 2; size > 0; size--) {
+			if (currTicket.getRowCount(1) == 5)
+				break;
+			for (int colIndex = 0; colIndex < 9; colIndex++) {
+				if (currTicket.getRowCount(1) == 5)
+					break;
+				if (currTicket.A[1][colIndex] != 0)
+					continue;
+
+				List<Integer> currSetCol = currSet.get(colIndex);
+				if (currSetCol.size() != size)
+					continue;
+
+				currTicket.A[1][colIndex] = currSetCol.remove(0);
+			}
+		}
+
+		for (int size = 1; size > 0; size--) {
+			if (currTicket.getRowCount(2) == 5)
+				break;
+			for (int colIndex = 0; colIndex < 9; colIndex++) {
+				if (currTicket.getRowCount(2) == 5)
+					break;
+				if (currTicket.A[2][colIndex] != 0)
+					continue;
+
+				List<Integer> currSetCol = currSet.get(colIndex);
+				if (currSetCol.size() != size)
+					continue;
+
+				currTicket.A[2][colIndex] = currSetCol.remove(0);
+			}
+		}
+
+		try {
+			currTicket.sortColumns();
+		} catch (Exception e) {
+			System.out.println("Note: there is a small probability your columns may not be sorted");
+			System.out.println(e.getMessage());
+		}
+
+		for (int r = 0; r < x; r++) {
+			for (int col = 0; col < y; col++) {
+				int num = currTicket.A[r][col];
+				if (num != 0)
+					System.out.print(num);
+
+				if (col != 8)
+					System.out.print(",");
+			}
+			if (r != 2)
+				System.out.println();
+		}
+	}
+}
