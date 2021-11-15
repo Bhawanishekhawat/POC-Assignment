@@ -17,9 +17,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import lombok.Data;
-
-@Data
 @Entity
 @Table(name = ("user_data"))
 public class User {
@@ -32,9 +29,14 @@ public class User {
 	private String userName;
 	@Column(name = "sur_name")
 	private String surName;
-	@DateTimeFormat(pattern = "{date}")
+	@DateTimeFormat(pattern = "{dateOfJoining}")
 	@JsonFormat(pattern = "yyyy/MM/dd")
-	private Date dueDate;
+	@Column(name="date_of_joining")
+	private Date dateOfJoining;
+	@DateTimeFormat(pattern = "{dateOfBirth}")
+	@JsonFormat(pattern = "yyyy/MM/dd")
+	@Column(name="date_of_birth")
+	private Date dateOfBirth;
 	@Digits(integer = 10, fraction = 0, message = "{MobileNo}")
 	@Min(value = 1000000000, message = "{MobileNo}")
 	@NotNull(message = "{mobileNo}")
@@ -50,69 +52,61 @@ public class User {
 	@NotNull(message = "{state}")
 	@Column(name = "state")
 	private String state;
-
-	public Long getId() {
+	public Long getUserId() {
 		return userId;
 	}
-
-	public void setId(Long id) {
-		this.userId = id;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
-
 	public String getUserName() {
 		return userName;
 	}
-
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
 	public String getSurName() {
 		return surName;
 	}
-
 	public void setSurName(String surName) {
 		this.surName = surName;
 	}
-
-	public Date getDueDate() {
-		return dueDate;
+	public Date getDateOfJoining() {
+		return dateOfJoining;
 	}
-
-	public void setDueDate(Date dueDate) {
-		this.dueDate = dueDate;
+	public void setDateOfJoining(Date dateOfJoining) {
+		this.dateOfJoining = dateOfJoining;
 	}
-
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
 	public Long getMobileNo() {
 		return mobileNo;
 	}
-
 	public void setMobileNo(Long mobileNo) {
 		this.mobileNo = mobileNo;
 	}
-
 	public String getEmail() {
 		return email;
 	}
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 	public String getCity() {
 		return city;
 	}
-
 	public void setCity(String city) {
 		this.city = city;
 	}
-
 	public String getState() {
 		return state;
 	}
-
 	public void setState(String state) {
 		this.state = state;
 	}
 
+	
+	
 }
