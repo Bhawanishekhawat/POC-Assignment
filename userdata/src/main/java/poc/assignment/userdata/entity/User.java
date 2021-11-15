@@ -1,9 +1,10 @@
 package poc.assignment.userdata.entity;
 
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,12 +14,22 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.ResultCheckStyle;
+import org.hibernate.annotations.SQLDelete;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+@Data
 @Entity
 @Table(name = ("user_data"))
+@SQLDelete(sql = "UPDATE user_data SET user_status = 'DELETED' WHERE user_id = ?", check = ResultCheckStyle.COUNT)
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -52,61 +63,10 @@ public class User {
 	@NotNull(message = "{state}")
 	@Column(name = "state")
 	private String state;
-	public Long getUserId() {
-		return userId;
-	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	public String getSurName() {
-		return surName;
-	}
-	public void setSurName(String surName) {
-		this.surName = surName;
-	}
-	public Date getDateOfJoining() {
-		return dateOfJoining;
-	}
-	public void setDateOfJoining(Date dateOfJoining) {
-		this.dateOfJoining = dateOfJoining;
-	}
-	public Date getDateOfBirth() {
-		return dateOfBirth;
-	}
-	public void setDateOfBirth(Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
-	public Long getMobileNo() {
-		return mobileNo;
-	}
-	public void setMobileNo(Long mobileNo) {
-		this.mobileNo = mobileNo;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getCity() {
-		return city;
-	}
-	public void setCity(String city) {
-		this.city = city;
-	}
-	public String getState() {
-		return state;
-	}
-	public void setState(String state) {
-		this.state = state;
-	}
-
+	@Column(name="user_status")
+	@Enumerated(EnumType.STRING)
+	private UserStatus status;
 	
+		
+	}
 	
-}

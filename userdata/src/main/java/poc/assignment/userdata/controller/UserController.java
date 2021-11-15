@@ -51,5 +51,15 @@ public class UserController {
 		List<User> findAllSorted = userService.getAllSortedByDateOfJoining();
 		return ResponseEntity.status(HttpStatus.OK).body(findAllSorted);
 	}
-
+	@GetMapping("/deleteUser/{userId}")
+	public String deleteById(@PathVariable Long userId){
+		userService.deleteById(userId);
+		return "user deleted sucessfully";
+	}
+	
+	@GetMapping("/removeUser/{userId}")
+	public String removeById(@PathVariable Long userId){
+		userService.removeById(userId);
+		return "user removed sucessfully";
+	}
 }
