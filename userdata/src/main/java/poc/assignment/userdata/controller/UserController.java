@@ -19,7 +19,7 @@ import poc.assignment.userdata.service.UserService;
 @RestController
 @RequestMapping("/userdata")
 public class UserController {
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -28,23 +28,28 @@ public class UserController {
 		User userSave = userService.saveUser(user);
 		return ResponseEntity.status(HttpStatus.CREATED).body(userSave);
 	}
-	
-	@GetMapping("/getByuserName/{userName}")
-	public ResponseEntity<List<User>> findById(@PathVariable String userName) {
-		 List<User> getUserByName = userService.findUserByUserName(userName);
+
+	@GetMapping("/findByfield/{field}")
+	public ResponseEntity<List<User>> findByfield(@PathVariable String field) {
+		List<User> getUserByName = userService.searchUser(field);
 		return ResponseEntity.status(HttpStatus.OK).body(getUserByName);
 	}
-	
+
 	@PostMapping("/updateById/{userId}")
-	public ResponseEntity<User> updateUserById(@RequestBody User user, @PathVariable Long id){
-		User updateById = userService.updateUser(user, id);
+	public ResponseEntity<User> updateUserById(@RequestBody User user, @PathVariable Long userId) {
+		User updateById = userService.updateUser(user, userId);
 		return ResponseEntity.status(HttpStatus.CREATED).body(updateById);
 	}
-	
-//	@GetMapping("/sortByField/field")
-//	public ResponseEntity<List<User>> sortByField(@PathVariable String field){
-//		List<User> findAllSorted = userService.getAllSorted(field);
-//		return ResponseEntity.status(HttpStatus.OK).body(findAllSorted);
-//	}
-	
+
+	@GetMapping("/sortByDob")
+	public ResponseEntity<List<User>> sortByDob(){
+		List<User> findAllSorted = userService.getAllSortedByDob();
+		return ResponseEntity.status(HttpStatus.OK).body(findAllSorted);
+	}
+	@GetMapping("/sortByDoj")
+	public ResponseEntity<List<User>> sortByDateOfJoining(){
+		List<User> findAllSorted = userService.getAllSortedByDateOfJoining();
+		return ResponseEntity.status(HttpStatus.OK).body(findAllSorted);
+	}
+
 }
