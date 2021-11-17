@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
-
-import lombok.Setter;
 import poc.assignment.userdata.entity.User;
 import poc.assignment.userdata.repo.UserRepo;
 
@@ -35,7 +33,7 @@ public class UserService {
 	// Edit User base on user id
 	public User updateUser(User user, Long id) {
 		User getUser = user;
-//		getUser.setUserId(id);
+		getUser.setUserId(id);
 		return userRepo.save(getUser);
 	}
 

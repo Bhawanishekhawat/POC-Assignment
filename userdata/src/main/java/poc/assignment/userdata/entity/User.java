@@ -26,7 +26,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Data
+ @Data
 @Entity
 @Table(name = ("user_data"))
 @SQLDelete(sql = "UPDATE user_data SET user_status = 'DELETED' WHERE user_id = ?", check = ResultCheckStyle.COUNT)
