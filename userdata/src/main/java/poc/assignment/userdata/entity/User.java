@@ -20,15 +20,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
  @Data
 @Entity
-@Table(name = ("user_data"))
+@Table(name = "user_data")
 @SQLDelete(sql = "UPDATE user_data SET user_status = 'DELETED' WHERE user_id = ?", check = ResultCheckStyle.COUNT)
 public class User {
 	@Id
